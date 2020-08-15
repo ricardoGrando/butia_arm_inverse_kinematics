@@ -70,12 +70,29 @@ def goal_callback(data):
         # time.sleep(0.1)
 
 def arm_state(data):
+<<<<<<< HEAD
     global current_angles
     
     current_angles = np.asarray(data.actual.positions - angle_offset)
 
     # print(current_angles)
    
+=======
+    global test_angle
+    # print (data)
+    cmd = JointTrajectory()
+    cmd.joint_names = ["soulder_base_joint", "shoulder_forearm_joint", "arm_forearm_joint", "roll_arm_joint", "yaw_roll_joint", "pitch_yaw_joint"]
+    cmd.points.append(data.actual)
+    cmd.points[0].accelerations = [1]*6
+    cmd.points[0].velocities = [1]*6
+    cmd.points[0].time_from_start = rospy.Duration(0.01)
+    test_angle += 0.1
+    cmd.points[0].positions = (test_angle, 0.8555191017805814, 0.27609019070510943, -0.09875712992764463, -0.042817870735770036, 0.08739832076399434)
+    joints_pub.publish(cmd)
+    print(cmd)
+
+    time.sleep(1)
+>>>>>>> 74b0f0ad79212497818b990e729f9d671a788629
 
 def butia_arm_inverse_kinematics():    
     rospy.init_node("butia_arm_inverse_kinematics", anonymous=False)
